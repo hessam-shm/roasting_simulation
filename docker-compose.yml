@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  app:
+    image: 'cropster-challenge:latest'
+    build:
+      context: .
+    container_name: application
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cropster
+      - SPRING_DATASOURCE_USERNAME=cropster
+      - SPRING_DATASOURCE_PASSWORD=coffee
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+
+  db:
+    image: 'postgres:13.2-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=cropster
+      - POSTGRES_PASSWORD=coffee
+      - POSTGRES_DB=cropster

@@ -1,10 +1,13 @@
 package com.cropster.roastingsimulation.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "green_coffees")
+@Table(name = "green_coffees",uniqueConstraints = @UniqueConstraint(name = "unique_name_per_facility",
+        columnNames ={"facility_id","name"}))
 public class GreenCoffee {
 
     @Id
@@ -13,6 +16,9 @@ public class GreenCoffee {
 
     @NotNull(message = "Green coffee name cannot be empty!")
     private String name;
+
+    @Min(value = 500, message = "Amount cannot be less than 500")
+    @Max(value = 10000, message = "Amount cannot be greater than 10000")
     private int amount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

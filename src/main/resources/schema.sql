@@ -1,13 +1,14 @@
 create schema cropster;
 
 CREATE TABLE facilities (
-    id int NOT NULL,
+    id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE (name)
 );
 
 CREATE TABLE machines (
-    id int NOT NULL,
+    id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
     capacity int,
     facility_id int NOT NULL,
@@ -17,7 +18,7 @@ CREATE TABLE machines (
 );
 
 CREATE TABLE green_coffees (
-    id int NOT NULL,
+    id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
     amount int,
     facility_id int NOT NULL,
@@ -26,7 +27,7 @@ CREATE TABLE green_coffees (
 );
 
 CREATE TABLE roasting_processes (
-    id int NOT NULL,
+    id SERIAL PRIMARY KEY,
     start_weigh decimal(10),
     end_weight decimal(10),
     start_time timestamp,

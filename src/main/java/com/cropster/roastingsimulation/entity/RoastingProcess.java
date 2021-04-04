@@ -12,14 +12,18 @@ public class RoastingProcess {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "start_weight")
     private double startWeight;
+
+    @Column(name = "end_weight")
     private double endWeight;
 
-    @NotNull(message = "Start date cannot be empty!")
-    private Date startDate;
+    @Column(name = "start_time")
+    private Date startTime;
 
-    @NotNull(message = "End date cannot be empty!")
-    private Date endDate;
+    @Column(name = "end_time")
+    private Date endTime;
 
     @NotNull(message = "Product name cannot be empty!")
     @Column(name = "product_name")
@@ -58,20 +62,20 @@ public class RoastingProcess {
         this.endWeight = endWeight;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartTime(Date startDate) {
+        this.startTime = startDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(Date endDate) {
+        this.endTime = endDate;
     }
 
     public String getProductName() {

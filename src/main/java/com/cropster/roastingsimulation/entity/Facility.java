@@ -2,11 +2,18 @@ package com.cropster.roastingsimulation.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "facilities")
+@Table(name = "facilities", uniqueConstraints =
+        @UniqueConstraint(name="unique_facility_name",columnNames = "name"))
 public class Facility {
+
+    protected Facility(){}
+    public Facility(String name){
+        this.name = name;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +22,11 @@ public class Facility {
     @NotNull(message = "Facility name cannot be empty!")
     private String name;
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
-    private List<Machine> machines;
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Machine> machines = new ArrayList<>();
 
-    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL)
-    private List<GreenCoffee> greenCoffees;
+    @OneToMany(mappedBy = "facility", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GreenCoffee> greenCoffees = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -51,5 +58,25 @@ public class Facility {
 
     public void setGreenCoffees(List<GreenCoffee> greenCoffees) {
         this.greenCoffees = greenCoffees;
+    }
+
+    public void addMachine(Machine machine){
+        machines.add(machine);
+        machine.setFacility(this);
+    }
+
+    public void removeMachine(Machine machine){
+        machines.remove(machine);
+        machine.setFacility(null);
+    }
+
+    public void addGreenCoffee(GreenCoffee greenCoffee){
+        greenCoffees.add(greenCoffee);
+        greenCoffee.setFacility(this);
+    }
+
+    public void removeGreenCoffee(GreenCoffee greenCoffee){
+        greenCoffees.remove(greenCoffee);
+        greenCoffee.setFacility(null);
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -68,14 +67,25 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
         return greenCoffee;
     }
 
-    //TODO:may be handled by roastingProcess service
-    /*@Transactional(propagation = Propagation.SUPPORTS,
-        isolation = Isolation.SERIALIZABLE)
+    @Transactional(propagation = Propagation.REQUIRED,
+            isolation = Isolation.SERIALIZABLE)
     @Override
     public GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, int consumed) {
         if(greenCoffee.getAmount() < consumed)
             throw new IllegalStateException("Cannot consume more than stock amount");
         greenCoffee.setAmount(greenCoffee.getAmount() - consumed);
         return greenCoffeeRepository.save(greenCoffee);
-    }*/
+    }
+
+    @Override
+    public GreenCoffee retrieve(String name, Facility facility) {
+        return greenCoffeeRepository.findByNameAndFacility_Id(name,facility.getId());
+    }
+
+    @Override
+    public void persist(GreenCoffee greenCoffee) {
+        greenCoffeeRepository.save(greenCoffee);
+    }
+
+
 }

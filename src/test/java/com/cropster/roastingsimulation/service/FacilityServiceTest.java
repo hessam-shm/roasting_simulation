@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +28,9 @@ import java.util.Arrays;
 @Transactional
 @SpringBootTest(classes = RoastingSimulationApplication.class)
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 public class FacilityServiceTest {
 
-    @Mock
+    @MockBean
     RandomGenerationService randomGenerationService;
     @Autowired
     FacilityRepository facilityRepository;

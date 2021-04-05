@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "facilities", uniqueConstraints =
@@ -78,5 +79,26 @@ public class Facility {
     public void removeGreenCoffee(GreenCoffee greenCoffee){
         greenCoffees.remove(greenCoffee);
         greenCoffee.setFacility(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Facility facility = (Facility) o;
+        return getName().equals(facility.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Facility{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "green_coffees",uniqueConstraints = @UniqueConstraint(name = "unique_name_per_facility",
@@ -55,5 +56,28 @@ public class GreenCoffee {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GreenCoffee that = (GreenCoffee) o;
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getFacility(), that.getFacility());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getFacility());
+    }
+
+    @Override
+    public String toString() {
+        return "GreenCoffee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", facility=" + facility +
+                '}';
     }
 }

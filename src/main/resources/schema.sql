@@ -28,13 +28,13 @@ CREATE TABLE green_coffees (
 
 CREATE TABLE roasting_processes (
     id SERIAL PRIMARY KEY,
-    start_weigh decimal(10),
+    start_weight decimal(10),
     end_weight decimal(10),
     start_time timestamp,
-    end_date timestamp,
+    end_time timestamp,
     green_coffee_id int,
     product_name varchar(128),
     PRIMARY KEY (id),
     FOREIGN KEY (green_coffee_id) REFERENCES green_coffees (id),
-    CHECK (start_weigh > end_weight)
+    CHECK (start_weight > end_weight)
 )

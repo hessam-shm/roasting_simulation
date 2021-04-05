@@ -1,6 +1,7 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.entity.Facility;
+import com.cropster.roastingsimulation.entity.GreenCoffee;
 import com.cropster.roastingsimulation.entity.Machine;
 import com.cropster.roastingsimulation.repository.MachineRepository;
 import com.cropster.roastingsimulation.service.random.RandomGenerationService;
@@ -8,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -19,6 +24,10 @@ public class MachineServiceImpl implements MachineService{
     MachineRepository machineRepository;
     @Autowired
     RandomGenerationService randomGenerationService;
+    @Autowired
+    RoastingProcessService roastingProcessService;
+    @Autowired
+    GreenCoffeeService greenCoffeeService;
 
     @Override
     public Machine create(String name, int capacity, Facility facility){
@@ -63,7 +72,24 @@ public class MachineServiceImpl implements MachineService{
     }
 
     @Override
+    public void roast(double startWeight, double endWeight, Date startTime, Date endtime,
+                      String productName, GreenCoffee greenCoffee) {
+        roastingProcessService.create(startWeight,endWeight,startTime,endtime,productName,greenCoffee);
+        greenCoffeeService.reduceInStockAmount(greenCoffee,calculateConsumedWeight(startWeight,endWeight));
+    }
+
+    @Override
+    public Machine retrieve(String name, Facility facility) {
+        return machineRepository.findByNameAndFacility_Id(name,facility.getId());
+    }
+
+
+    @Override
     public Machine upsert(Machine machine){
         return machineRepository.save(machine);
+    }
+
+    private int calculateConsumedWeight(double startWeight, double endWeight){
+        return Math.toIntExact(Math.round(startWeight - endWeight));
     }
 }

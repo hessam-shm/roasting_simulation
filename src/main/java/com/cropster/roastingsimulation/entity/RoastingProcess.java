@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roasting_processes")
@@ -29,7 +30,7 @@ public class RoastingProcess {
     @Column(name = "product_name")
     private String productName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "green_coffee_id", nullable = false)
     private GreenCoffee greenCoffee;
 
@@ -92,5 +93,31 @@ public class RoastingProcess {
 
     public void setGreenCoffee(GreenCoffee greenCoffee) {
         this.greenCoffee = greenCoffee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoastingProcess that = (RoastingProcess) o;
+        return Double.compare(that.getStartWeight(), getStartWeight()) == 0 && Double.compare(that.getEndWeight(), getEndWeight()) == 0 && Objects.equals(getStartTime(), that.getStartTime()) && Objects.equals(getEndTime(), that.getEndTime()) && Objects.equals(getProductName(), that.getProductName()) && Objects.equals(getGreenCoffee(), that.getGreenCoffee());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStartWeight(), getEndWeight(), getStartTime(), getEndTime(), getProductName(), getGreenCoffee());
+    }
+
+    @Override
+    public String toString() {
+        return "RoastingProcess{" +
+                "id=" + id +
+                ", startWeight=" + startWeight +
+                ", endWeight=" + endWeight +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", productName='" + productName + '\'' +
+                ", greenCoffee=" + greenCoffee +
+                '}';
     }
 }

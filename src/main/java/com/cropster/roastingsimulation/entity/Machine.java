@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "machines",
@@ -55,5 +56,28 @@ public class Machine {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Machine machine = (Machine) o;
+        return getCapacity() == machine.getCapacity() && Objects.equals(getName(), machine.getName()) && Objects.equals(getFacility(), machine.getFacility());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getCapacity(), getFacility());
+    }
+
+    @Override
+    public String toString() {
+        return "Machine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", capacity=" + capacity +
+                ", facility=" + facility +
+                '}';
     }
 }

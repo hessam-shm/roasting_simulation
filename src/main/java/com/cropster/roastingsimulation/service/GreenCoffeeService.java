@@ -2,9 +2,6 @@ package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.entity.Facility;
 import com.cropster.roastingsimulation.entity.GreenCoffee;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface GreenCoffeeService {
 
@@ -14,4 +11,9 @@ public interface GreenCoffeeService {
 
     GreenCoffee getRandomFromFacility(Facility facility);
 
+    GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, int consumed);
+
+    GreenCoffee retrieve(String name, Facility facility);
+
+    void persist(GreenCoffee greenCoffee);
 }

@@ -32,9 +32,12 @@ CREATE TABLE roasting_processes (
     end_weight decimal(10),
     start_time timestamp,
     end_time timestamp,
+    machine_id int,
     green_coffee_id int,
     product_name varchar(128),
     PRIMARY KEY (id),
+    FOREIGN KEY (machine_id) REFERENCES machines (id),
     FOREIGN KEY (green_coffee_id) REFERENCES green_coffees (id),
-    CHECK (start_weight > end_weight)
+    CHECK (start_weight > end_weight),
+    CHECK (end_time > roasting_processes.start_time)
 )

@@ -22,14 +22,19 @@ public class RoastingProcessServiceImpl implements RoastingProcessService{
     @Autowired
     RandomGenerationService randomGenerationService;
 
+    @Override
     public RoastingProcess create(double startWeight, double endWeight, Date startTime, Date endTime,
-                                  String productName, GreenCoffee greenCoffee) {
+                                  String productName, Machine machine, GreenCoffee greenCoffee) {
+        if(machineIsBusy(machine,startTime,endTime))
+            return null;
+
         RoastingProcess roastingProcess = new RoastingProcess();
         roastingProcess.setStartWeight(startWeight);
         roastingProcess.setEndWeight(endWeight);
         roastingProcess.setStartTime(startTime);
         roastingProcess.setEndTime(endTime);
         roastingProcess.setProductName(productName);
+        roastingProcess.setMachine(machine);
         roastingProcess.setGreenCoffee(greenCoffee);
 
         return roastingProcessRepository.save(roastingProcess);
@@ -42,10 +47,14 @@ public class RoastingProcessServiceImpl implements RoastingProcessService{
         return create(startWeight,
                 startWeight - randomGenerationService.getRandomWeightLoss(startWeight),
                 startTime,calculateEndTime(startTime,randomGenerationService.getRandomDuraion()),
-                randomGenerationService.getRandomProductName(),greenCoffee);
+                randomGenerationService.getRandomProductName(),machine,greenCoffee);
     }
 
     private Date calculateEndTime(Date startTime,int duration){
         return new Date(startTime.toInstant().plus(Duration.ofMinutes(duration)).toEpochMilli());
+    }
+
+    private boolean machineIsBusy(Machine machine, Date startTime, Date endTime){
+        return !roastingProcessRepository.findCollidingTime(machine.getId(),startTime,endTime).isEmpty();
     }
 }

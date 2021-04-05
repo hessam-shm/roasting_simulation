@@ -69,8 +69,6 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
         return greenCoffee;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,
-            isolation = Isolation.SERIALIZABLE)
     @Override
     public GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, int consumed) {
         if(greenCoffee.getAmount() < consumed)

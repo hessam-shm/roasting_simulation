@@ -5,6 +5,7 @@ import com.cropster.roastingsimulation.facility.entity.Facility;
 import com.cropster.roastingsimulation.facility.service.FacilityService;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
+import com.cropster.roastingsimulation.machine.entity.Machine;
 import com.cropster.roastingsimulation.machine.service.MachineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,12 +33,12 @@ public class MachineServiceIT {
     @Test
     public void roastTest(){
         Facility facility = facilityService.create("Facility-Z");
-        GreenCoffee greenCoffee = greenCoffeeService.create("Bean",1000,
-                facility);
+        GreenCoffee greenCoffee = greenCoffeeService.create("Bean",1000,facility);
+        Machine machine = machineService.create("Machine-A", 80, facility);
         machineService.roast(20,18,
                 new Date(Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli()),
                 new Date(Instant.now().minus(Duration.ofMinutes(54)).toEpochMilli()),
-                "Test-Roast",greenCoffee);
+                "Test-Roast",machine,greenCoffee);
         Assertions.assertEquals(998,greenCoffee.getAmount());
     }
 }

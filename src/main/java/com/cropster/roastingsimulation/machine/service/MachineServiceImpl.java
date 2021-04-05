@@ -6,12 +6,16 @@ import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
 import com.cropster.roastingsimulation.machine.entity.Machine;
 import com.cropster.roastingsimulation.machine.repository.MachineRepository;
+import com.cropster.roastingsimulation.roastingprocess.entity.RoastingProcess;
 import com.cropster.roastingsimulation.roastingprocess.service.RoastingProcessService;
 import com.cropster.roastingsimulation.common.random.RandomGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
@@ -72,11 +76,28 @@ public class MachineServiceImpl implements MachineService{
         return machine;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,
+            isolation = Isolation.SERIALIZABLE)
     @Override
-    public void roast(double startWeight, double endWeight, Date startTime, Date endtime,
-                      String productName, GreenCoffee greenCoffee) {
-        roastingProcessService.create(startWeight,endWeight,startTime,endtime,productName,greenCoffee);
-        greenCoffeeService.reduceInStockAmount(greenCoffee,calculateConsumedWeight(startWeight,endWeight));
+    public RoastingProcess roast(double startWeight, double endWeight, Date startTime, Date endtime,
+                                 String productName, Machine machine, GreenCoffee greenCoffee) {
+        RoastingProcess roastingProcess = roastingProcessService.create(
+                startWeight,endWeight,startTime,endtime,productName,machine,greenCoffee);
+        if(roastingProcess != null)
+            greenCoffeeService.reduceInStockAmount(
+                    greenCoffee,calculateConsumedWeight(startWeight,endWeight));
+        return roastingProcess;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,
+            isolation = Isolation.SERIALIZABLE)
+    @Override
+    public RoastingProcess roastRandom(Machine machine, GreenCoffee greenCoffee){
+        RoastingProcess roastingProcess = roastingProcessService.createRandomWithGreenCoffee(machine,greenCoffee);
+        if(roastingProcess != null)
+            greenCoffeeService.reduceInStockAmount(greenCoffee,
+                    calculateConsumedWeight(roastingProcess.getStartWeight(),roastingProcess.getEndWeight()));
+        return roastingProcess;
     }
 
     @Override

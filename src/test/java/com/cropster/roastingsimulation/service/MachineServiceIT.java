@@ -1,8 +1,11 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
-import com.cropster.roastingsimulation.entity.Facility;
-import com.cropster.roastingsimulation.entity.GreenCoffee;
+import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.service.FacilityService;
+import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
+import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
+import com.cropster.roastingsimulation.machine.service.MachineService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

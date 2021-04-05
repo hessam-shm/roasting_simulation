@@ -1,20 +1,18 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
-import com.cropster.roastingsimulation.entity.Facility;
-import com.cropster.roastingsimulation.repository.FacilityRepository;
-import com.cropster.roastingsimulation.service.random.RandomGenerationService;
+import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.repository.FacilityRepository;
+import com.cropster.roastingsimulation.facility.service.FacilityServiceImpl;
+import com.cropster.roastingsimulation.common.random.RandomGenerationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

@@ -1,27 +1,25 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
-import com.cropster.roastingsimulation.entity.Facility;
-import com.cropster.roastingsimulation.entity.GreenCoffee;
-import com.cropster.roastingsimulation.entity.Machine;
-import com.cropster.roastingsimulation.entity.RoastingProcess;
-import com.cropster.roastingsimulation.service.random.RandomGenerationService;
+import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
+import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
+import com.cropster.roastingsimulation.machine.entity.Machine;
+import com.cropster.roastingsimulation.machine.service.MachineService;
+import com.cropster.roastingsimulation.roastingprocess.entity.RoastingProcess;
+import com.cropster.roastingsimulation.roastingprocess.service.RoastingProcessServiceImpl;
+import com.cropster.roastingsimulation.common.random.RandomGenerationService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,10 +75,11 @@ public class RoastingProcessServiceTest {
 
     @Test
     public void createTest(){
+        GreenCoffee greenCoffee = greenCoffeeService.create("Coffee-Test",2000,new Facility("Facility-A"));
         RoastingProcess roastingProcess = roastingProcessService.create(
              30,28,new Date(Instant.now().minus(Duration.ofMinutes(35)).toEpochMilli()),
                 new Date(Instant.now().minus(Duration.ofMinutes(25)).toEpochMilli()),"Product-A",
-                greenCoffeeService.create("Coffee-Test",2000,new Facility("Facility-A")));
+                greenCoffee);
         Assertions.assertEquals("Product-A",roastingProcess.getProductName());
         Assertions.assertEquals(28,roastingProcess.getEndWeight());
         Assertions.assertEquals(2000, roastingProcess.getGreenCoffee().getAmount());

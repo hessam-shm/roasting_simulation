@@ -1,20 +1,20 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
-import com.cropster.roastingsimulation.entity.Facility;
-import com.cropster.roastingsimulation.entity.GreenCoffee;
-import com.cropster.roastingsimulation.entity.Machine;
-import com.cropster.roastingsimulation.repository.MachineRepository;
-import com.cropster.roastingsimulation.service.random.RandomGenerationService;
+import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.service.FacilityService;
+import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
+import com.cropster.roastingsimulation.machine.entity.Machine;
+import com.cropster.roastingsimulation.machine.repository.MachineRepository;
+import com.cropster.roastingsimulation.machine.service.MachineServiceImpl;
+import com.cropster.roastingsimulation.roastingprocess.service.RoastingProcessService;
+import com.cropster.roastingsimulation.common.random.RandomGenerationService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,10 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Arrays;
-import java.util.Date;
 
 @ActiveProfiles("test")
 @Transactional

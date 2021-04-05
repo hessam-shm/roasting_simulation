@@ -114,16 +114,4 @@ public class MachineServiceTest {
         Assertions.assertNull(machineService.getRandomFromFacility(facilityService.retrieve("Facility-A")));
     }
 
-    @Test
-    public void roastTest(){
-        Facility facility = facilityService.create("Facility-A");
-        GreenCoffee greenCoffee = greenCoffeeService.create("Bean",1000,
-                facility);
-        machineService.roast(20,18,
-                new Date(Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli()),
-                new Date(Instant.now().minus(Duration.ofMinutes(54)).toEpochMilli()),
-                "Test-Roast",greenCoffee);
-        Assertions.assertEquals(998,greenCoffee.getAmount());
-    }
-
 }

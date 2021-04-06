@@ -2,6 +2,7 @@ package com.cropster.roastingsimulation.machine.service;
 
 import com.cropster.roastingsimulation.common.log.Logger;
 import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.service.FacilityService;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
 import com.cropster.roastingsimulation.machine.entity.Machine;
@@ -34,13 +35,15 @@ public class MachineServiceImpl implements MachineService{
     RoastingProcessService roastingProcessService;
     @Autowired
     GreenCoffeeService greenCoffeeService;
+    @Autowired
+    FacilityService facilityService;
 
     @Override
     public Machine create(String name, int capacity, Facility facility){
         Machine machine = new Machine();
         machine.setName(name);
         machine.setCapacity(capacity);
-        facility.addMachine(machine);
+        facilityService.retrieve(facility.getName()).addMachine(machine);
 
         Machine savedMachine = null;
         try{

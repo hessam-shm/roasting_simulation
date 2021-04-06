@@ -9,8 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
-@Table(name = "machines",
-    uniqueConstraints =
+@Table(name = "machines", schema = "cropster", uniqueConstraints =
         @UniqueConstraint(name = "unique_machine_per_facility", columnNames = {"facility_id","name"}))
 public class Machine {
 

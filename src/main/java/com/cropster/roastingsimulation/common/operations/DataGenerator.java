@@ -49,7 +49,7 @@ public class DataGenerator implements ApplicationRunner {
         Thread.sleep(5000);
         Logger.info(this.getClass(),"starting simulation...");
 
-        simulator.simulate();
-        Logger.info(this.getClass(),"Simulation finished.");
+        //simulator.simulate();
+        //Logger.info(this.getClass(),"Simulation finished.");
     }
 }

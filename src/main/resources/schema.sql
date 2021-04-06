@@ -1,32 +1,29 @@
-create schema cropster;
+CREATE SCHEMA IF NOT EXISTS cropster;
 
-CREATE TABLE facilities (
+CREATE TABLE IF NOT EXISTS cropster.facilities (
     id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
-    PRIMARY KEY (id),
     UNIQUE (name)
 );
 
-CREATE TABLE machines (
+CREATE TABLE IF NOT EXISTS cropster.machines (
     id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
     capacity int,
     facility_id int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (facility_id) REFERENCES facilities (id),
+    FOREIGN KEY (facility_id) REFERENCES cropster.facilities (id),
     UNIQUE (name,facility_id)
 );
 
-CREATE TABLE green_coffees (
+CREATE TABLE IF NOT EXISTS cropster.green_coffees (
     id SERIAL PRIMARY KEY,
     name varchar(128) NOT NULL,
     amount int,
     facility_id int NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (facility_id) REFERENCES facilities (id)
+    FOREIGN KEY (facility_id) REFERENCES cropster.facilities (id)
 );
 
-CREATE TABLE roasting_processes (
+CREATE TABLE IF NOT EXISTS cropster.roasting_processes (
     id SERIAL PRIMARY KEY,
     start_weight decimal(10),
     end_weight decimal(10),
@@ -35,9 +32,8 @@ CREATE TABLE roasting_processes (
     machine_id int,
     green_coffee_id int,
     product_name varchar(128),
-    PRIMARY KEY (id),
-    FOREIGN KEY (machine_id) REFERENCES machines (id),
-    FOREIGN KEY (green_coffee_id) REFERENCES green_coffees (id),
+    FOREIGN KEY (machine_id) REFERENCES cropster.machines (id),
+    FOREIGN KEY (green_coffee_id) REFERENCES cropster.green_coffees (id),
     CHECK (start_weight > end_weight),
     CHECK (end_time > roasting_processes.start_time)
 )

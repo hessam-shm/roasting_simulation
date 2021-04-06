@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "roasting_processes")
+@Table(name = "roasting_processes", schema = "cropster")
 public class RoastingProcess {
 
     @Id

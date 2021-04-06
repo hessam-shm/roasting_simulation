@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface MachineRepository extends PagingAndSortingRepository<Machine,Long> {
 
     Page<Machine> findAllByFacility_Id(long id, Pageable pageable);
+    Iterable<Machine> findAllByFacility_Id(long id);
     long countAllByFacility_Id(long id);
     Machine findByNameAndFacility_Id(String name, long facilityId);
 }

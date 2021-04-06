@@ -1,7 +1,10 @@
 package com.cropster.roastingsimulation.greencoffee.service;
 
 import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.repository.FacilityRepository;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
+
+import java.util.List;
 
 public interface GreenCoffeeService {
 
@@ -14,6 +17,8 @@ public interface GreenCoffeeService {
     GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, int consumed);
 
     GreenCoffee retrieve(String name, Facility facility);
+
+    List<GreenCoffee> retrieveAllByFacility(Facility facility);
 
     void persist(GreenCoffee greenCoffee);
 }

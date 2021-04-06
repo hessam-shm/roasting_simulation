@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -80,6 +79,13 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
     @Override
     public GreenCoffee retrieve(String name, Facility facility) {
         return greenCoffeeRepository.findByNameAndFacility_Id(name,facility.getId());
+    }
+
+    @Override
+    public List<GreenCoffee> retrieveAllByFacility(Facility facility) {
+        List<GreenCoffee> greenCoffees = new ArrayList<>();
+        greenCoffeeRepository.findAllByFacility_Id(facility.getId()).forEach(greenCoffees::add);
+        return greenCoffees;
     }
 
     @Override

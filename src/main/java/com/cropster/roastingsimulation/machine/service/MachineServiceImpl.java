@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -103,6 +105,13 @@ public class MachineServiceImpl implements MachineService{
     @Override
     public Machine retrieve(String name, Facility facility) {
         return machineRepository.findByNameAndFacility_Id(name,facility.getId());
+    }
+
+    @Override
+    public List<Machine> retrieveAllByFacility(Facility facility) {
+        List<Machine> machines = new ArrayList<>();
+        machineRepository.findAllByFacility_Id(facility.getId()).forEach(machines::add);
+        return machines;
     }
 
 

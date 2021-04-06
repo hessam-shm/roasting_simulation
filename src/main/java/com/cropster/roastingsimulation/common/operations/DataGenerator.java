@@ -1,5 +1,6 @@
 package com.cropster.roastingsimulation.common.operations;
 
+import com.cropster.roastingsimulation.common.log.Logger;
 import com.cropster.roastingsimulation.facility.entity.Facility;
 import com.cropster.roastingsimulation.facility.service.FacilityService;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
@@ -22,10 +23,13 @@ public class DataGenerator implements ApplicationRunner {
     MachineService machineService;
     @Autowired
     GreenCoffeeService greenCoffeeService;
+    @Autowired
+    Simulator simulator;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
+        Logger.info(this.getClass(),"Generating initial data...");
         //generate 2 facilities and keep a reference to them instead of refetch
         Facility facility1 = facilityService.createRandom();
         Facility facility2 = facilityService.createRandom();
@@ -41,5 +45,11 @@ public class DataGenerator implements ApplicationRunner {
                 greenCoffeeService.createRandomForFacility(facility1));
         IntStream.range(0,5).forEach(i ->
                 greenCoffeeService.createRandomForFacility(facility2));
+
+        Thread.sleep(5000);
+        Logger.info(this.getClass(),"starting simulation...");
+
+        simulator.simulate();
+        Logger.info(this.getClass(),"Simulation finished.");
     }
 }

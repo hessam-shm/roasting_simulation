@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -41,7 +43,6 @@ public class FacilityServiceImpl implements FacilityService{
         return savedFacility;
     }
 
-    //could check the name instead of using constraint but to keep the code consistance used constraint
     @Override
     public Facility createRandom(){
         boolean repeatedName = true;
@@ -65,5 +66,12 @@ public class FacilityServiceImpl implements FacilityService{
         if(facilityPage.hasContent())
             facility = facilityPage.getContent().get(0);
         return facility;
+    }
+
+    @Override
+    public List<Facility> retrieveAll() {
+        List<Facility> facilities = new ArrayList<>();
+        facilityRepository.findAll().forEach(facilities::add);
+        return facilities;
     }
 }

@@ -1,5 +1,6 @@
 package com.cropster.roastingsimulation.roastingprocess.service;
 
+import com.cropster.roastingsimulation.common.log.Logger;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
 import com.cropster.roastingsimulation.machine.entity.Machine;
@@ -9,6 +10,7 @@ import com.cropster.roastingsimulation.roastingprocess.repository.RoastingProces
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.time.Duration;
 import java.util.Date;
 
@@ -37,7 +39,17 @@ public class RoastingProcessServiceImpl implements RoastingProcessService{
         roastingProcess.setMachine(machine);
         roastingProcess.setGreenCoffee(greenCoffee);
 
-        return roastingProcessRepository.save(roastingProcess);
+        RoastingProcess savedRoastingProcess = null;
+        try{
+            savedRoastingProcess = roastingProcessRepository.save(roastingProcess);
+
+        } catch (ConstraintViolationException e){
+            Logger.logException(this.getClass(),e);
+            Logger.info(this.getClass(),e.getMessage());
+            throw(e);
+        }
+        return savedRoastingProcess;
+
     }
 
     @Override

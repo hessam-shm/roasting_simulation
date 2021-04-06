@@ -5,18 +5,20 @@ import com.cropster.roastingsimulation.roastingprocess.service.RoastingProcessSe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/roast")
+import javax.validation.Valid;
+
+@RestController()
+@RequestMapping("/roast")
 public class RoastingProcessController {
 
     @Autowired
     RoastingProcessService roastingProcessService;
 
-    @PostMapping(value = "/roast", consumes = "application/json")
-    public @ResponseBody ResponseEntity<RoastingProcess> roast(RoastingProcess roastingProcess){
+    @PostMapping(value = "/new", consumes = "application/json")
+    public @ResponseBody
+    ResponseEntity<RoastingProcess> roast(@Valid @RequestBody RoastingProcess roastingProcess){
         return new ResponseEntity<>(roastingProcessService.create(
                 roastingProcess.getStartWeight(),roastingProcess.getEndWeight(),
                 roastingProcess.getStartTime(),roastingProcess.getEndTime(),roastingProcess.getProductName(),

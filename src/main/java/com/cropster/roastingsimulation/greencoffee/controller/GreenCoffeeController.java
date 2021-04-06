@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/greencoffee")
+import javax.validation.Valid;
+
+@RestController()
+@RequestMapping("/greencoffee")
 public class GreenCoffeeController {
 
     @Autowired
@@ -22,7 +25,8 @@ public class GreenCoffeeController {
     }
 
     @PostMapping(value = "/create", consumes = "application/json")
-    public @ResponseBody ResponseEntity<GreenCoffee> createGreenCoffee(@RequestBody GreenCoffee greenCoffee){
+    public @ResponseBody
+    ResponseEntity<GreenCoffee> createGreenCoffee(@Valid @RequestBody GreenCoffee greenCoffee){
         return new ResponseEntity<>(greenCoffeeService.create(greenCoffee.getName(),
                 greenCoffee.getAmount(),greenCoffee.getFacility()), HttpStatus.OK);
     }

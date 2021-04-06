@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/machine")
+import javax.validation.Valid;
+
+@RestController()
+@RequestMapping("/machine")
 public class MachineController {
 
     @Autowired
@@ -23,7 +26,7 @@ public class MachineController {
 
     @PostMapping(value = "/create", consumes = "application/json")
     public @ResponseBody
-    ResponseEntity<Machine> createMachine(@RequestBody Machine machine){
+    ResponseEntity<Machine> createMachine(@Valid @RequestBody Machine machine){
         return new ResponseEntity<>(machineService.create(machine.getName(),
                 machine.getCapacity(),machine.getFacility()), HttpStatus.OK);
     }

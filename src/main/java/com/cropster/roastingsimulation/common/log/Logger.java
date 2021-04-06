@@ -10,6 +10,7 @@ public final class Logger {
     public static void info(Class c, String message){
         LoggerFactory.getLogger(c).info(message);
     }
+    public static void error(Class c, String message){ LoggerFactory.getLogger(c).error(message); }
 
     public static void debug(Class c, String message){
         LoggerFactory.getLogger(c).debug(message);

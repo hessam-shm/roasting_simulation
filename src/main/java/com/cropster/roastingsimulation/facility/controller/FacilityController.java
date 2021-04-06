@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/facility")
+import javax.validation.Valid;
+
+@RestController()
+@RequestMapping("/facility")
 public class FacilityController {
 
     @Autowired
@@ -19,7 +22,7 @@ public class FacilityController {
     }
 
     @PostMapping(value = "/create", consumes = "application/json")
-    public @ResponseBody ResponseEntity<Facility> createFacility(@RequestBody Facility facility){
+    public @ResponseBody ResponseEntity<Facility> createFacility(@Valid @RequestBody Facility facility){
         return new ResponseEntity<>(facilityService.create(facility.getName()), HttpStatus.OK);
     }
 }

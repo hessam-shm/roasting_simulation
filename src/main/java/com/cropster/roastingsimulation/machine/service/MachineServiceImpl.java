@@ -83,8 +83,14 @@ public class MachineServiceImpl implements MachineService{
     @Override
     public RoastingProcess roast(double startWeight, double endWeight, Date startTime, Date endtime,
                                  String productName, Machine machine, GreenCoffee greenCoffee) {
-        RoastingProcess roastingProcess = roastingProcessService.create(
-                startWeight,endWeight,startTime,endtime,productName,machine,greenCoffee);
+        RoastingProcess roastingProcess = null;
+        try{
+            roastingProcess = roastingProcessService.create(
+                    startWeight,endWeight,startTime,endtime,productName,machine,greenCoffee);
+        } catch (ConstraintViolationException e){
+            Logger.error(this.getClass(),"roasing process for machine " + machine.getId() + " and " +
+                    "green coffee " + greenCoffee.getName() + " faild");
+        }
         if(roastingProcess != null)
             greenCoffeeService.reduceInStockAmount(
                     greenCoffee,calculateConsumedWeight(startWeight,endWeight));
@@ -95,7 +101,13 @@ public class MachineServiceImpl implements MachineService{
             isolation = Isolation.SERIALIZABLE)
     @Override
     public RoastingProcess roastRandom(Machine machine, GreenCoffee greenCoffee){
-        RoastingProcess roastingProcess = roastingProcessService.createRandomWithGreenCoffee(machine,greenCoffee);
+        RoastingProcess roastingProcess = null;
+        try{
+            roastingProcess = roastingProcessService.createRandomWithGreenCoffee(machine,greenCoffee);
+        } catch (ConstraintViolationException e){
+            Logger.error(this.getClass(),"roasing process for machine " + machine.getId() + " and " +
+                    "green coffee " + greenCoffee.getName() + " faild");
+        }
         if(roastingProcess != null)
             greenCoffeeService.reduceInStockAmount(greenCoffee,
                     calculateConsumedWeight(roastingProcess.getStartWeight(),roastingProcess.getEndWeight()));

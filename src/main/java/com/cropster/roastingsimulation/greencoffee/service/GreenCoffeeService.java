@@ -1,7 +1,6 @@
 package com.cropster.roastingsimulation.greencoffee.service;
 
 import com.cropster.roastingsimulation.facility.entity.Facility;
-import com.cropster.roastingsimulation.facility.repository.FacilityRepository;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 
 import java.util.List;

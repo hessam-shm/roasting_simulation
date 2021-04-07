@@ -103,6 +103,4 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
     public void persist(GreenCoffee greenCoffee) {
         greenCoffeeRepository.save(greenCoffee);
     }
-
-
 }

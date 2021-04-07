@@ -7,8 +7,8 @@ import java.util.List;
 
 @Repository
 public class RandomNameRepository {
-    String LETTERs_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    List<String> GREEN_COFFEE_NAMES = Arrays.asList("Ethiopia Sidamo","Daterra Peaberry","natural Guji",
+    private final String LETTERs_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final List<String> GREEN_COFFEE_NAMES = Arrays.asList("Ethiopia Sidamo","Daterra Peaberry","natural Guji",
             "Kiryama","Catuai","Capulines","Arabica");
 
     public String getLetterPool(){
@@ -18,6 +18,5 @@ public class RandomNameRepository {
     public List<String> getGreenCoffeeNames(){
         return GREEN_COFFEE_NAMES;
     }
-
 
 }

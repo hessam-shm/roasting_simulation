@@ -33,7 +33,7 @@ public class FacilityServiceImpl implements FacilityService{
     @Override
     public Facility create(String name){
         Facility facility = new Facility(name);
-        Facility savedFacility = null;
+        Facility savedFacility;
         try{
             savedFacility = facilityRepository.save(facility);
         } catch (ConstraintViolationException | DataIntegrityViolationException e){

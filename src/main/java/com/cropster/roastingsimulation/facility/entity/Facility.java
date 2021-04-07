@@ -69,19 +69,9 @@ public class Facility {
         machine.setFacility(this);
     }
 
-    public void removeMachine(Machine machine){
-        machines.remove(machine);
-        machine.setFacility(null);
-    }
-
     public void addGreenCoffee(GreenCoffee greenCoffee){
         greenCoffees.add(greenCoffee);
         greenCoffee.setFacility(this);
-    }
-
-    public void removeGreenCoffee(GreenCoffee greenCoffee){
-        greenCoffees.remove(greenCoffee);
-        greenCoffee.setFacility(null);
     }
 
     @Override

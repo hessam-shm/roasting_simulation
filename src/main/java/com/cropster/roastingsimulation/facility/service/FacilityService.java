@@ -7,8 +7,12 @@ import java.util.List;
 public interface FacilityService {
 
     Facility retrieve(String name);
+
     Facility create(String name);
+
     Facility createRandom();
+
     Facility getRandom();
+
     List<Facility> retrieveAll();
 }

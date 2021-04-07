@@ -46,7 +46,7 @@ public class MachineServiceImpl implements MachineService{
         machine.setCapacity(capacity);
         facilityService.retrieve(facility.getName()).addMachine(machine);
 
-        Machine savedMachine = null;
+        Machine savedMachine;
         try{
             savedMachine = machineRepository.save(machine);
         } catch (ConstraintViolationException e){
@@ -126,7 +126,6 @@ public class MachineServiceImpl implements MachineService{
         machineRepository.findAllByFacility_Id(facility.getId()).forEach(machines::add);
         return machines;
     }
-
 
     @Override
     public Machine upsert(Machine machine){

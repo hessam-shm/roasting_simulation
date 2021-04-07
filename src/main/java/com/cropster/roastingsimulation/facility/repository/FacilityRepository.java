@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface FacilityRepository extends PagingAndSortingRepository<Facility,Long> {
 
     Facility findByName(String name);
+    
     @Query(nativeQuery = true, value = "SELECT * FROM facilities ORDER BY random() LIMIT 1")
     Facility retrieveRandom();
 }

@@ -47,10 +47,15 @@ public class RoastingProcessServiceTest {
     @Autowired
     RoastingProcessServiceImpl roastingProcessService;
 
+    private static final String FACILITY_NAME = "Faclitiy-A";
+    private static final String MACHINE_NAME = "Machine-A";
+    private static final String COFFEE_NAME = "Coffee-Test";
+    private static final String PRODUCT_NAME = "Product-A";
+
     @BeforeEach
     public void setupMocks() {
 
-        facilityService.create("Facility-A");
+        facilityService.create(FACILITY_NAME);
 
         MockitoAnnotations.openMocks(this);
         Mockito.when(randomGenerationService.getRandomRoastingStartWeight(60))
@@ -60,20 +65,20 @@ public class RoastingProcessServiceTest {
         Mockito.when(randomGenerationService.getRandomStartTime())
                 .thenReturn(new Date(Instant.now().minus(Duration.ofMinutes(80)).toEpochMilli()));
         Mockito.when(randomGenerationService.getRandomProductName())
-                .thenReturn("Product-A");
+                .thenReturn(PRODUCT_NAME);
         Mockito.when(randomGenerationService.getRandomDuraion())
                 .thenReturn(10);
     }
 
     @Test
     public void createTest() {
-        Facility facility = facilityService.retrieve("Facility-A");
+        Facility facility = facilityService.retrieve(FACILITY_NAME);
         RoastingProcess roastingProcess = roastingProcessService.create(
                 30, 28, new Date(Instant.now().minus(Duration.ofMinutes(35)).toEpochMilli()),
-                new Date(Instant.now().minus(Duration.ofMinutes(25)).toEpochMilli()), "Product-A",
-                machineService.create("Machine-A", 60, facility),
-                greenCoffeeService.create("Coffee-Test", 2000, facility));
-        Assertions.assertEquals("Product-A", roastingProcess.getProductName());
+                new Date(Instant.now().minus(Duration.ofMinutes(25)).toEpochMilli()), PRODUCT_NAME,
+                machineService.create(MACHINE_NAME, 60, facility),
+                greenCoffeeService.create(COFFEE_NAME, 2000, facility));
+        Assertions.assertEquals(PRODUCT_NAME, roastingProcess.getProductName());
         Assertions.assertEquals(28, roastingProcess.getEndWeight());
         Assertions.assertEquals(2000, roastingProcess.getGreenCoffee().getAmount());
         Assertions.assertEquals(60, roastingProcess.getMachine().getCapacity());
@@ -81,23 +86,23 @@ public class RoastingProcessServiceTest {
 
     @Test
     public void createRandomTest() {
-        Facility facility = facilityService.retrieve("Facility-A");
+        Facility facility = facilityService.retrieve(FACILITY_NAME);
         RoastingProcess roastingProcess = roastingProcessService.createRandomWithGreenCoffee(
-                machineService.create("Machine-A", 60, facility),
-                greenCoffeeService.create("Coffee-Test", 2000, facility));
-        Assertions.assertEquals("Product-A", roastingProcess.getProductName());
+                machineService.create(MACHINE_NAME, 60, facility),
+                greenCoffeeService.create(COFFEE_NAME, 2000, facility));
+        Assertions.assertEquals(PRODUCT_NAME, roastingProcess.getProductName());
         Assertions.assertEquals(20, roastingProcess.getStartWeight());
     }
 
     @Test
     public void createWithIllegalWeightFails() {
-        Facility facility = facilityService.retrieve("Facility-A");
-        GreenCoffee greenCoffee = greenCoffeeService.create("Coffee-Test", 2000,facility);
-        Machine machine = machineService.create("Machine-A", 60, facility);
+        Facility facility = facilityService.retrieve(FACILITY_NAME);
+        GreenCoffee greenCoffee = greenCoffeeService.create(COFFEE_NAME, 2000,facility);
+        Machine machine = machineService.create(MACHINE_NAME, 60, facility);
         Assertions.assertThrows(ConstraintViolationException.class, () ->
                 roastingProcessService.create(30, 32,
                 new Date(Instant.now().minus(Duration.ofMinutes(35)).toEpochMilli()),
                 new Date(Instant.now().minus(Duration.ofMinutes(25)).toEpochMilli()),
-                "Product-A", machine, greenCoffee));
+                PRODUCT_NAME, machine, greenCoffee));
     }
 }

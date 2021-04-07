@@ -45,6 +45,7 @@ public class MachineServiceTest {
     @Autowired
     RoastingProcessService roastingProcessService;
 
+    private static final String FACILITY_NAME = "Facility-A";
 
     @BeforeEach
     public void setupMocks(TestInfo testInfo){
@@ -53,36 +54,36 @@ public class MachineServiceTest {
                 .thenReturn("Machine-X");
         Mockito.when(randomGenerationService.getRandomMachineCapacity())
                 .thenReturn(88);
-        Mockito.when(facilityService.retrieve("Facility-A"))
-                .thenReturn(new Facility("Facility-A"));
+        Mockito.when(facilityService.retrieve(FACILITY_NAME))
+                .thenReturn(new Facility(FACILITY_NAME));
     }
 
     @Test
     public void createTest(){
-        Facility facility = facilityService.retrieve("Facility-A");
+        Facility facility = facilityService.retrieve(FACILITY_NAME);
         Machine machine = machineService.create("Machine-T",50,facility);
         Assertions.assertEquals(machine.getCapacity(),50);
-        Assertions.assertEquals(machine.getFacility().getName(),"Facility-A");
+        Assertions.assertEquals(machine.getFacility().getName(),FACILITY_NAME);
     }
 
     @Test
     public void createWithillegalCapacityFails(){
         Assertions.assertThrows(ConstraintViolationException.class,
                 () -> machineService.create("Machine-T",100,
-                        facilityService.retrieve("Facility-A")));
+                        facilityService.retrieve(FACILITY_NAME)));
     }
 
     @Test
     public void sameMachineNameForSameFacilityFails(){
-        machineService.create("Machine-A",70, facilityService.retrieve("Facility-A"));
+        machineService.create("Machine-A",70, facilityService.retrieve(FACILITY_NAME));
         Assertions.assertThrows(DataIntegrityViolationException.class,
                 () -> machineService.create("Machine-A",60,
-                        facilityService.retrieve("Facility-A")));
+                        facilityService.retrieve(FACILITY_NAME)));
     }
 
     @Test
     public void createRandomForFacilityTest(){
-        Machine machine = machineService.createRandomForFacility(facilityService.retrieve("Facility-A"));
+        Machine machine = machineService.createRandomForFacility(facilityService.retrieve(FACILITY_NAME));
         Assertions.assertEquals("Machine-X",machine.getName());
         Assertions.assertEquals(88,machine.getCapacity());
     }
@@ -92,23 +93,23 @@ public class MachineServiceTest {
         Machine machine1 = new Machine();
         machine1.setName("Machine-A");
         machine1.setCapacity(randomGenerationService.getRandomMachineCapacity());
-        machine1.setFacility(facilityService.retrieve("Facility-A"));
+        machine1.setFacility(facilityService.retrieve(FACILITY_NAME));
         Machine machine2 = new Machine();
         machine2.setName("Machine-B");
         machine2.setCapacity(randomGenerationService.getRandomMachineCapacity());
-        machine2.setFacility(facilityService.retrieve("Facility-A"));
+        machine2.setFacility(facilityService.retrieve(FACILITY_NAME));
         machineRepository.save(machine1);
         machineRepository.save(machine2);
 
         Assertions.assertTrue(Arrays.asList(machine1.getName(),machine2.getName()).contains(
-                machineService.getRandomFromFacility(facilityService.retrieve("Facility-A")).getName()));
+                machineService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getName()));
         Assertions.assertEquals(88,machineService.getRandomFromFacility(
-                facilityService.retrieve("Facility-A")).getCapacity());
+                facilityService.retrieve(FACILITY_NAME)).getCapacity());
     }
 
     @Test
     public void getRandomFromFacilityWithNoMachine(){
-        Assertions.assertNull(machineService.getRandomFromFacility(facilityService.retrieve("Facility-A")));
+        Assertions.assertNull(machineService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)));
     }
 
 }

@@ -32,7 +32,7 @@ public class MachineServiceIT {
 
     @Test
     public void roastTest(){
-        Facility facility = facilityService.create("Facility-Z");
+        Facility facility = facilityService.create("Facility-A");
         GreenCoffee greenCoffee = greenCoffeeService.create("Bean",1000,facility);
         Machine machine = machineService.create("Machine-A", 80, facility);
         machineService.roast(20,18,

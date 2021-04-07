@@ -11,7 +11,7 @@ public interface GreenCoffeeService {
 
     GreenCoffee createRandomForFacility(Facility facility);
 
-    GreenCoffee getRandomFromFacility(Facility facility);
+    GreenCoffee retrieveRandomFromFacility(Facility facility);
 
     GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, double consumed);
 
@@ -19,5 +19,4 @@ public interface GreenCoffeeService {
 
     List<GreenCoffee> retrieveAllByFacility(Facility facility);
 
-    void persist(GreenCoffee greenCoffee);
 }

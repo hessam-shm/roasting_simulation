@@ -47,7 +47,7 @@ public class RoastingProcessServiceTest {
     @Autowired
     RoastingProcessServiceImpl roastingProcessService;
 
-    private static final String FACILITY_NAME = "Faclitiy-A";
+    private static final String FACILITY_NAME = "Facility-A";
     private static final String MACHINE_NAME = "Machine-A";
     private static final String COFFEE_NAME = "Coffee-Test";
     private static final String PRODUCT_NAME = "Product-A";

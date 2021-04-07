@@ -38,8 +38,8 @@ public class Simulator {
                         Comparator.comparing(Machine::getCapacity)).get().getCapacity()));
 
         do{
-            Facility facility = facilityService.getRandom();
-            machineService.roastRandom(machineService.getRandomFromFacility(facility),greenCoffeeService.getRandomFromFacility(facility));
+            Facility facility = facilityService.retrieveRandom();
+            machineService.roastRandom(machineService.retrieveRandomFromFacility(facility),greenCoffeeService.retrieveRandomFromFacility(facility));
         } while(simulationSentinel(FACILITY_MIN_MACHINE_CAPACITY));
 
     }

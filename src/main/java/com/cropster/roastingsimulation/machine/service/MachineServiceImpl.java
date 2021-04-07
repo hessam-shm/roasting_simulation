@@ -70,7 +70,7 @@ public class MachineServiceImpl implements MachineService{
     }
 
     @Override
-    public Machine getRandomFromFacility(Facility facility){
+    public Machine retrieveRandomFromFacility(Facility facility){
         Machine machine = null;
         long count = machineRepository.countAllByFacility_Id(facility.getId());
         if(count <= 0)
@@ -125,10 +125,5 @@ public class MachineServiceImpl implements MachineService{
         List<Machine> machines = new ArrayList<>();
         machineRepository.findAllByFacility_Id(facility.getId()).forEach(machines::add);
         return machines;
-    }
-
-    @Override
-    public Machine upsert(Machine machine){
-        return machineRepository.save(machine);
     }
 }

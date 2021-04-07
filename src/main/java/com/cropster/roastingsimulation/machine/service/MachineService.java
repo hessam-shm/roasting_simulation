@@ -14,7 +14,7 @@ public interface MachineService {
 
     Machine createRandomForFacility(Facility facility);
 
-    Machine getRandomFromFacility(Facility facility);
+    Machine retrieveRandomFromFacility(Facility facility);
 
     RoastingProcess roast(double startWeight, double endWeight, Date startTime, Date endtime,
                           String productName, Machine machine, GreenCoffee greenCoffee);
@@ -25,5 +25,4 @@ public interface MachineService {
 
     List<Machine> retrieveAllByFacility(Facility facility);
 
-    Machine upsert(Machine machine);
 }

@@ -12,7 +12,7 @@ public interface FacilityService {
 
     Facility createRandom();
 
-    Facility getRandom();
+    Facility retrieveRandom();
 
     List<Facility> retrieveAll();
 }

@@ -1,6 +1,7 @@
 package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
+import com.cropster.roastingsimulation.exception.BadRequestException;
 import com.cropster.roastingsimulation.facility.entity.Facility;
 import com.cropster.roastingsimulation.facility.service.FacilityService;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
@@ -62,7 +63,7 @@ public class GreenCoffeeServiceTest {
 
     @Test
     public void createWithIllegalAmountFails(){
-        Assertions.assertThrows(IllegalArgumentException.class,
+        Assertions.assertThrows(BadRequestException.class,
                 () -> greenCoffeeService.create("Ethiopia Sidamo",1,
                         facilityService.retrieve(FACILITY_NAME)));
     }
@@ -90,15 +91,15 @@ public class GreenCoffeeServiceTest {
         greenCoffeeRepository.save(greenCoffee2);
 
         Assertions.assertTrue(Arrays.asList(greenCoffee1.getName(),greenCoffee2.getName()).contains(
-                greenCoffeeService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getName()
+                greenCoffeeService.retrieveRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getName()
         ));
         Assertions.assertTrue(Arrays.asList(greenCoffee1.getAmount(),greenCoffee2.getAmount()).contains(
-                greenCoffeeService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getAmount()
+                greenCoffeeService.retrieveRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getAmount()
         ));
     }
 
     @Test
     public void getRandomFromFacilityWithNoCoffee(){
-        Assertions.assertNull(greenCoffeeService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)));
+        Assertions.assertNull(greenCoffeeService.retrieveRandomFromFacility(facilityService.retrieve(FACILITY_NAME)));
     }
 }

@@ -1,6 +1,7 @@
 package com.cropster.roastingsimulation.greencoffee.service;
 
 import com.cropster.roastingsimulation.common.log.Logger;
+import com.cropster.roastingsimulation.exception.BadRequestException;
 import com.cropster.roastingsimulation.facility.entity.Facility;
 import com.cropster.roastingsimulation.common.random.RandomGenerationService;
 import com.cropster.roastingsimulation.facility.service.FacilityService;
@@ -32,7 +33,7 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
     public GreenCoffee create(String name, int amount, Facility facility) {
         if(amount < 500){
             Logger.error(this.getClass(),"Initial amount cannot be less than 500");
-            throw new IllegalArgumentException("Initial amount cannot be less than 500");
+            throw new BadRequestException("Initial amount cannot be less than 500");
         }
 
         GreenCoffee greenCoffee = new GreenCoffee();
@@ -66,7 +67,7 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
     }
 
     @Override
-    public GreenCoffee getRandomFromFacility(Facility facility) {
+    public GreenCoffee retrieveRandomFromFacility(Facility facility) {
         GreenCoffee greenCoffee = null;
         long count = greenCoffeeRepository.countAllByFacility_Id(facility.getId());
         if(count <= 0)
@@ -97,10 +98,5 @@ public class GreenCoffeeServiceImpl implements GreenCoffeeService{
         List<GreenCoffee> greenCoffees = new ArrayList<>();
         greenCoffeeRepository.findAllByFacility_Id(facility.getId()).forEach(greenCoffees::add);
         return greenCoffees;
-    }
-
-    @Override
-    public void persist(GreenCoffee greenCoffee) {
-        greenCoffeeRepository.save(greenCoffee);
     }
 }

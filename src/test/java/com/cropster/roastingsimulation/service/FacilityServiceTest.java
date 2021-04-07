@@ -60,20 +60,20 @@ public class FacilityServiceTest {
     @Test
     public void createRandomTest(){
         Assertions.assertNotNull(facilityService.createRandom().getName());
-        Assertions.assertEquals("Facility-X",facilityService.getRandom().getName());
+        Assertions.assertEquals("Facility-X",facilityService.retrieveRandom().getName());
     }
 
     @Test
     public void getRandomTest(){
         Facility facilityA = facilityRepository.save(new Facility("Facility-A"));
         Facility facilityB = facilityRepository.save(new Facility("Facility-B"));
-        Facility randomFacility = facilityService.getRandom();
+        Facility randomFacility = facilityService.retrieveRandom();
         Assertions.assertTrue(
                 Arrays.asList(facilityA.getName(),facilityB.getName()).contains(randomFacility.getName()));
     }
 
     @Test
     public void getRandomWithoutData(){
-        Assertions.assertNull(facilityService.getRandom());
+        Assertions.assertNull(facilityService.retrieveRandom());
     }
 }

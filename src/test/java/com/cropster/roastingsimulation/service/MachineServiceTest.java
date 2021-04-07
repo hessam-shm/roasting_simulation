@@ -102,14 +102,14 @@ public class MachineServiceTest {
         machineRepository.save(machine2);
 
         Assertions.assertTrue(Arrays.asList(machine1.getName(),machine2.getName()).contains(
-                machineService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getName()));
-        Assertions.assertEquals(88,machineService.getRandomFromFacility(
+                machineService.retrieveRandomFromFacility(facilityService.retrieve(FACILITY_NAME)).getName()));
+        Assertions.assertEquals(88,machineService.retrieveRandomFromFacility(
                 facilityService.retrieve(FACILITY_NAME)).getCapacity());
     }
 
     @Test
     public void getRandomFromFacilityWithNoMachine(){
-        Assertions.assertNull(machineService.getRandomFromFacility(facilityService.retrieve(FACILITY_NAME)));
+        Assertions.assertNull(machineService.retrieveRandomFromFacility(facilityService.retrieve(FACILITY_NAME)));
     }
 
 }

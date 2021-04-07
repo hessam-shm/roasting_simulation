@@ -58,7 +58,7 @@ public class FacilityServiceImpl implements FacilityService{
     }
 
     @Override
-    public Facility getRandom(){
+    public Facility retrieveRandom(){
         Facility facility = null;
         long count = facilityRepository.count();
         if(count <= 0)

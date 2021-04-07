@@ -61,7 +61,7 @@ public class GreenCoffeeServiceTest {
 
     @Test
     public void createWithIllegalAmountFails(){
-        Assertions.assertThrows(ConstraintViolationException.class,
+        Assertions.assertThrows(IllegalArgumentException.class,
                 () -> greenCoffeeService.create("Ethiopia Sidamo",1,
                         facilityService.retrieve("Facility-A")));
     }

@@ -39,6 +39,6 @@ public class MachineServiceIT {
                 new Date(Instant.now().minus(Duration.ofMinutes(60)).toEpochMilli()),
                 new Date(Instant.now().minus(Duration.ofMinutes(54)).toEpochMilli()),
                 "Test-Roast",machine,greenCoffee);
-        Assertions.assertEquals(998,greenCoffee.getAmount());
+        Assertions.assertEquals(980,greenCoffee.getAmount());
     }
 }

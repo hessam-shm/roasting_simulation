@@ -2,6 +2,7 @@ package com.cropster.roastingsimulation.service;
 
 import com.cropster.roastingsimulation.RoastingSimulationApplication;
 import com.cropster.roastingsimulation.facility.entity.Facility;
+import com.cropster.roastingsimulation.facility.service.FacilityService;
 import com.cropster.roastingsimulation.greencoffee.entity.GreenCoffee;
 import com.cropster.roastingsimulation.greencoffee.service.GreenCoffeeService;
 import com.cropster.roastingsimulation.machine.entity.Machine;
@@ -36,9 +37,11 @@ public class RoastingProcessServiceTest {
 
     @MockBean
     RandomGenerationService randomGenerationService;
-    @MockBean
+    @Autowired
+    FacilityService facilityService;
+    @Autowired
     MachineService machineService;
-    @MockBean
+    @Autowired
     GreenCoffeeService greenCoffeeService;
     @InjectMocks
     @Autowired
@@ -46,17 +49,8 @@ public class RoastingProcessServiceTest {
 
     @BeforeEach
     public void setupMocks() {
-        Facility facility = new Facility("Facility-A");
 
-        GreenCoffee greenCoffee = new GreenCoffee();
-        greenCoffee.setName("Coffee-Test");
-        greenCoffee.setAmount(2000);
-        greenCoffee.setFacility(facility);
-
-        Machine machine = new Machine();
-        machine.setName("Machine-A");
-        machine.setCapacity(60);
-        machine.setFacility(facility);
+        facilityService.create("Facility-A");
 
         MockitoAnnotations.openMocks(this);
         Mockito.when(randomGenerationService.getRandomRoastingStartWeight(60))
@@ -69,20 +63,16 @@ public class RoastingProcessServiceTest {
                 .thenReturn("Product-A");
         Mockito.when(randomGenerationService.getRandomDuraion())
                 .thenReturn(10);
-        Mockito.when(greenCoffeeService.create("Coffee-Test", 2000, new Facility("Facility-A")))
-                .thenReturn(greenCoffee);
-        Mockito.when(machineService.create("Machine-A", 60, new Facility("Facility-A")))
-                .thenReturn(machine);
     }
 
     @Test
     public void createTest() {
-        GreenCoffee greenCoffee = greenCoffeeService.create("Coffee-Test", 2000, new Facility("Facility-A"));
-        Machine machine = machineService.create("Machine-A", 60, new Facility("Facility-A"));
+        Facility facility = facilityService.retrieve("Facility-A");
         RoastingProcess roastingProcess = roastingProcessService.create(
                 30, 28, new Date(Instant.now().minus(Duration.ofMinutes(35)).toEpochMilli()),
                 new Date(Instant.now().minus(Duration.ofMinutes(25)).toEpochMilli()), "Product-A",
-                machine, greenCoffee);
+                machineService.create("Machine-A", 60, facility),
+                greenCoffeeService.create("Coffee-Test", 2000, facility));
         Assertions.assertEquals("Product-A", roastingProcess.getProductName());
         Assertions.assertEquals(28, roastingProcess.getEndWeight());
         Assertions.assertEquals(2000, roastingProcess.getGreenCoffee().getAmount());
@@ -91,18 +81,19 @@ public class RoastingProcessServiceTest {
 
     @Test
     public void createRandomTest() {
+        Facility facility = facilityService.retrieve("Facility-A");
         RoastingProcess roastingProcess = roastingProcessService.createRandomWithGreenCoffee(
-                machineService.create("Machine-A", 60, new Facility("Facility-A")),
-                greenCoffeeService.create("Coffee-Test", 2000, new Facility("Facility-A")));
+                machineService.create("Machine-A", 60, facility),
+                greenCoffeeService.create("Coffee-Test", 2000, facility));
         Assertions.assertEquals("Product-A", roastingProcess.getProductName());
         Assertions.assertEquals(20, roastingProcess.getStartWeight());
     }
 
     @Test
     public void createWithIllegalWeightFails() {
-        GreenCoffee greenCoffee = greenCoffeeService.create("Coffee-Test", 2000,
-                new Facility("Facility-A"));
-        Machine machine = machineService.create("Machine-A", 60, new Facility("Facility-A"));
+        Facility facility = facilityService.retrieve("Facility-A");
+        GreenCoffee greenCoffee = greenCoffeeService.create("Coffee-Test", 2000,facility);
+        Machine machine = machineService.create("Machine-A", 60, facility);
         Assertions.assertThrows(ConstraintViolationException.class, () ->
                 roastingProcessService.create(30, 32,
                 new Date(Instant.now().minus(Duration.ofMinutes(35)).toEpochMilli()),

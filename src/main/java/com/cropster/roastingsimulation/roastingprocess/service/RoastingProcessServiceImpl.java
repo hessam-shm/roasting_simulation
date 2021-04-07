@@ -56,7 +56,7 @@ public class RoastingProcessServiceImpl implements RoastingProcessService{
 
     @Override
     public RoastingProcess createRandomWithGreenCoffee(Machine machine, GreenCoffee greenCoffee) {
-        int startWeight = randomGenerationService.getRandomRoastingStartWeight(machine.getCapacity());
+        double startWeight = randomGenerationService.getRandomRoastingStartWeight(machine.getCapacity());
         Date startTime = randomGenerationService.getRandomStartTime();
         return create(startWeight,
                 startWeight - randomGenerationService.getRandomWeightLoss(startWeight),

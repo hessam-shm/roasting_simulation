@@ -14,13 +14,13 @@ public interface RandomGenerationService {
 
     int getRandomInitialGreenCoffeeAmount();
 
-    int getRandomRoastingStartWeight(int machineCapacity);
+    double getRandomRoastingStartWeight(int machineCapacity);
 
     int getRandomDuraion();
 
     Date getRandomStartTime();
 
-    int getRandomWeightLoss(int startWeight);
+    double getRandomWeightLoss(double startWeight);
 
     String getRandomProductName();
 }

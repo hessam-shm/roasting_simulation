@@ -43,9 +43,10 @@ public class RandomGenerationServiceImpl implements RandomGenerationService {
     }
 
     @Override
-    public int getRandomRoastingStartWeight(int machineCapacity) {
-        int lowerBound = (int)(65*(machineCapacity/100.0f));
-        return ThreadLocalRandom.current().nextInt(lowerBound,machineCapacity+1);
+    public double getRandomRoastingStartWeight(int machineCapacity) {
+        double lowerBound = 65*(machineCapacity/100.0);
+        double result = ThreadLocalRandom.current().nextDouble(lowerBound,machineCapacity);
+        return Math.ceil(result * 100)/100.0;
     }
 
     @Override
@@ -61,10 +62,12 @@ public class RandomGenerationServiceImpl implements RandomGenerationService {
     }
 
     @Override
-    public int getRandomWeightLoss(int startWeight) {
-        int upperBound =  (int)(15*(startWeight/100.0f));
-        int lowerBound =  (int)(8*(startWeight/100.0f));
-        return ThreadLocalRandom.current().nextInt(lowerBound,upperBound+1);
+    public double getRandomWeightLoss(double startWeight) {
+
+        double upperBound = 15 * (startWeight/100);
+        double lowrBound = 8 * (startWeight/100);
+        double result = ThreadLocalRandom.current().nextDouble(lowrBound,upperBound);
+        return Math.ceil(result * 100)/100.0;
     }
 
     @Override

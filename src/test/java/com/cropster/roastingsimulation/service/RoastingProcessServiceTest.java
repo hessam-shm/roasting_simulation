@@ -59,9 +59,9 @@ public class RoastingProcessServiceTest {
 
         MockitoAnnotations.openMocks(this);
         Mockito.when(randomGenerationService.getRandomRoastingStartWeight(60))
-                .thenReturn(20);
+                .thenReturn(20.0);
         Mockito.when(randomGenerationService.getRandomWeightLoss(20))
-                .thenReturn(18);
+                .thenReturn(18.0);
         Mockito.when(randomGenerationService.getRandomStartTime())
                 .thenReturn(new Date(Instant.now().minus(Duration.ofMinutes(80)).toEpochMilli()));
         Mockito.when(randomGenerationService.getRandomProductName())

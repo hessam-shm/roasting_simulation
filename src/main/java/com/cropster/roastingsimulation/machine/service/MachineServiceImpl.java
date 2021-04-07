@@ -96,7 +96,7 @@ public class MachineServiceImpl implements MachineService{
                     "green coffee " + greenCoffee.getName() + " faild");
         }
         if(roastingProcess != null)
-            greenCoffeeService.reduceInStockAmount(greenCoffee,startWeight);
+            greenCoffeeService.reduceInStockAmount(greenCoffee,(int)Math.ceil(startWeight));
         return roastingProcess;
     }
 
@@ -111,7 +111,7 @@ public class MachineServiceImpl implements MachineService{
                     "green coffee " + greenCoffee.getName() + " faild");
         }
         if(roastingProcess != null)
-            greenCoffeeService.reduceInStockAmount(greenCoffee,roastingProcess.getStartWeight());
+            greenCoffeeService.reduceInStockAmount(greenCoffee,(int)Math.ceil(roastingProcess.getStartWeight()));
         return roastingProcess;
     }
 

@@ -9,11 +9,13 @@ import com.cropster.roastingsimulation.roastingprocess.entity.RoastingProcess;
 import com.cropster.roastingsimulation.roastingprocess.repository.RoastingProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
 import java.time.Duration;
 import java.util.Date;
 
+@Transactional
 @Service
 public class RoastingProcessServiceImpl implements RoastingProcessService{
 
@@ -27,7 +29,7 @@ public class RoastingProcessServiceImpl implements RoastingProcessService{
     @Override
     public RoastingProcess create(double startWeight, double endWeight, Date startTime, Date endTime,
                                   String productName, Machine machine, GreenCoffee greenCoffee) {
-        if(machineIsBusy(machine,startTime,endTime))
+        if(machineIsBusy(machine,startTime,endTime) || startWeight > greenCoffee.getAmount())
             return null;
 
         RoastingProcess roastingProcess = new RoastingProcess();

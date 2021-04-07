@@ -14,7 +14,7 @@ public interface GreenCoffeeService {
 
     GreenCoffee getRandomFromFacility(Facility facility);
 
-    GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, int consumed);
+    GreenCoffee reduceInStockAmount(GreenCoffee greenCoffee, double consumed);
 
     GreenCoffee retrieve(String name, Facility facility);
 

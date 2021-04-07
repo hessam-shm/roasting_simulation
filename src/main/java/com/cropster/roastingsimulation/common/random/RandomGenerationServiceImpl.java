@@ -57,7 +57,7 @@ public class RandomGenerationServiceImpl implements RandomGenerationService {
     public Date getRandomStartTime() {
         long now = Instant.now().toEpochMilli();
         long yesterday = Instant.now().minus(Duration.ofDays(1)).toEpochMilli();
-        return new Date(ThreadLocalRandom.current().nextLong(now,yesterday+1));
+        return new Date(ThreadLocalRandom.current().nextLong(yesterday+1,now));
     }
 
     @Override

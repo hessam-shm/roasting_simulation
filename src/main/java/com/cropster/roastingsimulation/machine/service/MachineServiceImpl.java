@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Transactional
 @Service
 public class MachineServiceImpl implements MachineService{
 
@@ -95,13 +96,11 @@ public class MachineServiceImpl implements MachineService{
                     "green coffee " + greenCoffee.getName() + " faild");
         }
         if(roastingProcess != null)
-            greenCoffeeService.reduceInStockAmount(
-                    greenCoffee,calculateConsumedWeight(startWeight,endWeight));
+            greenCoffeeService.reduceInStockAmount(greenCoffee,startWeight);
         return roastingProcess;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED,
-            isolation = Isolation.SERIALIZABLE)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public RoastingProcess roastRandom(Machine machine, GreenCoffee greenCoffee){
         RoastingProcess roastingProcess = null;
@@ -112,8 +111,7 @@ public class MachineServiceImpl implements MachineService{
                     "green coffee " + greenCoffee.getName() + " faild");
         }
         if(roastingProcess != null)
-            greenCoffeeService.reduceInStockAmount(greenCoffee,
-                    calculateConsumedWeight(roastingProcess.getStartWeight(),roastingProcess.getEndWeight()));
+            greenCoffeeService.reduceInStockAmount(greenCoffee,roastingProcess.getStartWeight());
         return roastingProcess;
     }
 
@@ -133,9 +131,5 @@ public class MachineServiceImpl implements MachineService{
     @Override
     public Machine upsert(Machine machine){
         return machineRepository.save(machine);
-    }
-
-    private int calculateConsumedWeight(double startWeight, double endWeight){
-        return Math.toIntExact(Math.round(startWeight - endWeight));
     }
 }

@@ -46,10 +46,12 @@ public class DataGenerator implements ApplicationRunner {
         IntStream.range(0,5).forEach(i ->
                 greenCoffeeService.createRandomForFacility(facility2));
 
+        Logger.info(this.getClass(),"Data generation finished.");
+
         Thread.sleep(5000);
         Logger.info(this.getClass(),"starting simulation...");
 
-        //simulator.simulate();
-        //Logger.info(this.getClass(),"Simulation finished.");
+        simulator.simulate();
+        Logger.info(this.getClass(),"Simulation finished.");
     }
 }

@@ -46,10 +46,10 @@ public class Simulator {
 
     private boolean simulationSentinel(Map<Facility,Integer> facilityMachineCapacity){
         for(Map.Entry<Facility,Integer> entry: facilityMachineCapacity.entrySet()){
-            if(entry.getValue() > currentMaxStock(entry.getKey()))
-                return false;
+            if(entry.getValue() <= currentMaxStock(entry.getKey()))
+                return true;
         }
-        return true;
+        return false;
     }
 
     private int currentMaxStock(Facility facility){

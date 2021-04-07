@@ -20,7 +20,6 @@ public class GreenCoffee {
     @NotNull(message = "Green coffee name cannot be empty!")
     private String name;
 
-    @Min(value = 500, message = "Amount cannot be less than 500")
     @Max(value = 10000, message = "Amount cannot be greater than 10000")
     private int amount;
 

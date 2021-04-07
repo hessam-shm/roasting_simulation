@@ -35,11 +35,11 @@ public class RoastingProcess {
     @Column(name = "product_name")
     private String productName;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "machine_id", nullable = false)
     private Machine machine;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "green_coffee_id", nullable = false)
     private GreenCoffee greenCoffee;
 

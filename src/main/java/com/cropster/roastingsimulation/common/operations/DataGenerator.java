@@ -11,7 +11,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -56,7 +55,8 @@ public class DataGenerator implements ApplicationRunner {
 
         simulator.simulate();
         long end = System.currentTimeMillis();
-        Logger.info(this.getClass(),"Simulation finished in " + TimeUnit.MILLISECONDS.toMinutes(end-start) +
-        " minute(s) and " + TimeUnit.MILLISECONDS.toSeconds((end-start)%60000) + " seconds");
+        Logger.info(this.getClass(),"Simulation finished in " +
+                TimeUnit.MILLISECONDS.toMinutes(end-start) + " minute(s) and " +
+                TimeUnit.MILLISECONDS.toSeconds((end-start)%60000) + " second(s)");
     }
 }

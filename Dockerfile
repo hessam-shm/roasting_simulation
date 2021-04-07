@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
 COPY ./src ./src
-RUN mvn -f ./pom.xml clean package
+RUN mvn -f ./pom.xml clean package -DskipTests
 
 FROM openjdk:8-jdk-alpine
 ENV TZ Europe/Vienna

@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS cropster.green_coffees (
 
 CREATE TABLE IF NOT EXISTS cropster.roasting_processes (
     id SERIAL PRIMARY KEY,
-    start_weight decimal(10),
-    end_weight decimal(10),
+    start_weight decimal(4,2),
+    end_weight decimal(4,2),
     start_time timestamp,
     end_time timestamp,
     machine_id int,

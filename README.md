@@ -21,4 +21,5 @@ Finding a balanced condition to end the simulation was another challenge. The id
 * The **final most important assumption** in every software project is it worked on my machine so it works on any other machine :)
 ### Work in progress
 * Since not part of the requirements, controllers are there but just as a stub code, neither fully implemented nor tested.
+* Externalizing constants to a properties file so changing conditions becomes easier
 * While the transactional nature of the code avoids any conflicts but a multithreaded simulation would be welcome for testing
